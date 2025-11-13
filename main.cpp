@@ -2,10 +2,14 @@
 #include <fstream>
 #include <iostream>
 
+#include "play.h"
+
 #define ANIMAL_FILE "animals.txt"
+#define FAILED_LETTERS 6
 
 std::string get_animal();
 int get_animal_amount(std::ifstream& file);
+bool play_again();
 
 int main()
 {
@@ -19,9 +23,28 @@ int main()
         if(animal.empty())
         {
             std::cout << "error with file" << std::endl;
+            return 1;
+        }
+        
+        bool word_guessed = false;
+        int count = 0;
+        Play play(animal);
+
+        while(count != FAILED_LETTERS)
+        {
+            word_guessed = play.guess();
+
+            if(word_guessed)
+            {
+                std::cout << "Congrats you won!!!" << std::endl;
+                break;
+            }
+
+            else
         }
 
-        
+        if(!play_again())
+            break;
     }
     return 0;
 }
@@ -60,4 +83,13 @@ std::string get_animal()
     return animals[randomNumber];
 }
 
+bool play_again()
+{
+    std::cout << "Would you like to play again? y/n" << std::endl;
 
+    char answer;
+
+    std::cin >> answer;
+
+    return (answer == 'y') ? true : false;
+}
