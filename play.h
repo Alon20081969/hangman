@@ -2,79 +2,26 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <algorithm>
 
+#define WRONG_LETTER 0
+#define RIGHT_LETTER 1
+#define GUESSED_WORD 2
+#define ALREADY_TRIED_LETTER 3
 
 class Play
 {
 public:
     Play(const std::string& animal);
-    bool guess() const;
+    int guess();
+    void display_dummy(int attempt) const;
+    void display_user_word() const;
 
 
 private:
     std::string m_animal;
-    std::vector<std::string> hangman = {
-        // Stage 0
-        "  +---+\n"
-        "  |   |\n"
-        "      |\n"
-        "      |\n"
-        "      |\n"
-        "      |\n"
-        "=========\n",
-
-        // Stage 1
-        "  +---+\n"
-        "  |   |\n"
-        "  O   |\n"
-        "      |\n"
-        "      |\n"
-        "      |\n"
-        "=========\n",
-
-        // Stage 2
-        "  +---+\n"
-        "  |   |\n"
-        "  O   |\n"
-        "  |   |\n"
-        "      |\n"
-        "      |\n"
-        "=========\n",
-
-        // Stage 3
-        "  +---+\n"
-        "  |   |\n"
-        "  O   |\n"
-        " /|   |\n"
-        "      |\n"
-        "      |\n"
-        "=========\n",
-
-        // Stage 4
-        "  +---+\n"
-        "  |   |\n"
-        "  O   |\n"
-        " /|\\  |\n"
-        "      |\n"
-        "      |\n"
-        "=========\n",
-
-        // Stage 5
-        "  +---+\n"
-        "  |   |\n"
-        "  O   |\n"
-        " /|\\  |\n"
-        " /    |\n"
-        "      |\n"
-        "=========\n",
-
-        // Stage 6 (final)
-        "  +---+\n"
-        "  |   |\n"
-        "  O   |\n"
-        " /|\\  |\n"
-        " / \\  |\n"
-        "      |\n"
-        "=========\n"
-    };
+    std::string m_user_word;
+    std::vector<char> m_guessed_letters;
+    static const std::vector<std::string> m_hangman;
 };

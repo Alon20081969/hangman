@@ -6,6 +6,11 @@
 
 #define ANIMAL_FILE "animals.txt"
 #define FAILED_LETTERS 6
+#define WRONG_LETTER 0
+#define RIGHT_LETTER 1
+#define GUESSED_WORD 2
+#define ALREADY_TRIED_LETTER 3
+
 
 std::string get_animal();
 int get_animal_amount(std::ifstream& file);
@@ -26,7 +31,7 @@ int main()
             return 1;
         }
         
-        bool word_guessed = false;
+        int word_guessed = 0;
         int count = 0;
         Play play(animal);
 
@@ -34,18 +39,38 @@ int main()
         {
             word_guessed = play.guess();
 
-            if(word_guessed)
+            if(word_guessed == GUESSED_WORD)
             {
+                play.display_user_word();
                 std::cout << "Congrats you won!!!" << std::endl;
                 break;
             }
 
-            else
+            if(!word_guessed)
+            {
+                count++;
+                if(count == FAILED_LETTERS)
+                {
+                    std::cout << "Sorry you failed the word was: " << animal << std::endl;
+                    break;
+                }
+
+                std::cout << "Wrong letter!!!" << std::endl;
+                play.display_dummy(count);
+            }
+
+            else if (word_guessed == ALREADY_TRIED_LETTER)
+            {
+                std::cout << "You already tried this letter!!!" << std::endl;
+            }
+
+            play.display_user_word();
         }
 
         if(!play_again())
             break;
     }
+    std::cout << "Okay bye bye!!!" << std::endl;
     return 0;
 }
 
@@ -91,5 +116,5 @@ bool play_again()
 
     std::cin >> answer;
 
-    return (answer == 'y') ? true : false;
+    return answer == 'y';
 }
